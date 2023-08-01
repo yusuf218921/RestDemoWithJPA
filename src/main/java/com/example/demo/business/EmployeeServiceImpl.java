@@ -1,43 +1,41 @@
 package com.example.demo.business;
 
-import com.example.demo.dataAccess.EmployeeDao;
+import com.example.demo.dataAccess.EmployeeRepository;
 import com.example.demo.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
-    EmployeeDao employeeDao;
+    EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
     public void save(Employee employee) {
-        employeeDao.save(employee);
+        employeeRepository.save(employee);
     }
 
     @Override
-    public void delete(int id) {
-        employeeDao.delete(id);
+    public void delete(Employee employee) {
+        employeeRepository.delete(employee);
     }
 
-    @Override
-    public void update(Employee employee) {
-        employeeDao.update(employee);
-    }
 
     @Override
     public Employee find(int id) {
-        return employeeDao.find(id);
+        Optional<Employee> result = employeeRepository.findById(id);
+        return result.get();
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDao.findAll();
+        return employeeRepository.findAll();
     }
 }
